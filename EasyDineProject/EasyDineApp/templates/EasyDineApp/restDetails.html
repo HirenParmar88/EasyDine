@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-top: 0;
+    }
+
+    .details {
+      grid-column: span 1;
+    }
+
+    .details div {
+      margin-bottom: 10px;
+    }
+
+    .details div h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .details div p {
+      color: #666;
+    }
+
+    .image {
+      grid-column: span 1;
+      text-align: center;
+      position: relative; /* Added */
+    }
+
+    .image img {
+      width: auto;
+      height: 100%;
+      border-radius: 5px;
+      transition: transform 0.3s ease;
+      max-height: 50vh; /* Adjust height as needed */
+    }
+
+    .image img:hover {
+      transform: scale(1.05);
+    }
+
+    .book-table-btn {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .book-table-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .review-panel {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review-panel:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .details {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .details:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .review-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .reviews-section {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .reviews-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .review-panel h2 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .review-panel input[type="text"],
+    .review-panel textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+    }
+
+    .review-panel button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .review-panel button:hover {
+      background-color: #0056b3;
+    }
+
+    .address{
+      line-height: 0.5;
+    }
+    .contact{
+      line-height: 0.5;
+    }
+    .desc{
+      line-height: 0.5;
+    }
+    
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="details">
+      <h1>{{ restaurant.name }}</h1>
+      <div class="address">
+        <p>{{ restaurant.address }}</p>
+        <p>{{ restaurant.post }}</p>
+        <p>{{ restaurant.city }}</p>
+      </div>
+      <div class="contact">
+        <h4>Contact:</h4>
+        <p>{{ restaurant.phone }}</p>
+      </div>
+      <div class="desc">
+        <h4>Description:</h4>
+        <p>{{ restaurant.about }}</p>
+      </div>
+    </div>
+    <div class="image">
+      <img src="/media/{{ restaurant.image}}" class="card-img-top" alt="{{ restaurant.name }}">
+      <button class="book-table-btn">Book Table</button>
+    </div>
+    <div class="review-panel">
+      <h2>Add Review</h2>
+      <input type="text" placeholder="Your Name">
+      <textarea placeholder="Your Review"></textarea>
+      <button>Submit Review</button>
+    </div>
+    <div class="reviews-section">
+      <h2>Customer Reviews</h2>
+      <div class="review-card">
+        <p class="review-text">"Great food and excellent service! Will definitely visit again."</p>
+        <p class="review-author">- John Doe</p>
+      </div>
+      
+    </div>
+  </div>
+</body>
+
+</html>

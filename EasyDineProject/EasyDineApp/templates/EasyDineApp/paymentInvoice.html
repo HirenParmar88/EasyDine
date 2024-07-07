@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Invoice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-3RbBcn5lCt6D2Npxov7sxf4T28vCtLxmxfS1tzOtlVc2jLye39Ll7dbCkH0TkCdM9r00j+5iJZk7RZDmvEyOdQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #666;
+        }
+        .invoice-details {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .invoice-details h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .invoice-details p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .payment-info {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .payment-info h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .payment-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .payment-info .total {
+            font-size: 24px;
+            color: #333;
+        }
+        .payment-action {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .payment-action button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .payment-action button:hover {
+            background-color: #0056b3;
+        }
+        /* Invoice styles */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .invoice-table th,
+        .invoice-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .invoice-table th {
+            background-color: #f5f5f5;
+        }
+        .invoice-table td {
+            background-color: #fff;
+        }
+        .invoice-table th:last-child,
+        .invoice-table td:last-child {
+            text-align: right;
+        }
+        .invoice-table th:first-child,
+        .invoice-table td:first-child {
+            padding-left: 20px;
+        }
+        .invoice-table td:first-child {
+            padding-left: 20px;
+        }
+        .invoice-table tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+     
+    <div class="container">
+        {% comment %} <form method="post" enctype="multipart/form-data">  {% endcomment %}
+            {% csrf_token %} 
+            <div class="header">
+                <h1>Payment Invoice</h1>
+                <p>Thank you for your booking with us!</p>
+            </div>
+        <div class="invoice-details"> 
+            <h2>Invoice Details</h2>
+            <table class="invoice-table">
+                <tr>
+                    <th>Invoice Number</th>
+                    <td name="invoice_number">INV-{{latest_booking.id}}-{{latest_booking.datetime|date:"ymd"}}</td>
+                </tr>
+                <tr>
+                    <th>Booking Date&Time</th>
+                    <td name="booking_datetime">{{ latest_booking.datetime }}</td>
+                </tr>
+                <tr>
+                    <th>Customer Name</th>
+                    <td name="name">{{ latest_booking.name }}</td>
+                </tr>
+                <tr>
+                    <th>Customer Phone</th>
+                    <td name="customer_phone">{{ latest_booking.phone }}</td>
+                </tr>
+                <tr>
+                    <th>Customer Email</th>
+                    <td>{{ latest_booking.email }}</td>
+                </tr>
+                <!-- Add more invoice details as needed -->
+            </table>
+        </div>
+        <div class="payment-info">
+            <h2>Payment Information</h2>
+            <p name="total_people">Total People: {{ latest_booking.people }}</p>
+            <p>Payment per Person: Rs. 50</p>
+            <p class="total" name="total_payment">Total Payment: Rs. {{ total_payment }}</p>
+        </div>
+        <div class="payment-action">
+            <button id="makePaymentBtn" type="submit" onclick="payment()">Make Payment</button>
+        </div>
+    {% comment %} </form> {% endcomment %}
+    </div>
+{% comment %} </form> {% endcomment %}
+
+    <script>
+        function payment(){
+            window.location.href="/payment.html"
+        }
+
+            document.getElementById('makePaymentBtn').addEventListener('click', function() {
+                // Gather data from HTML elements
+                var invoiceNumber = document.querySelector('[name="invoice_number"]').innerText;
+                var bookingDatetime = document.querySelector('[name="booking_datetime"]').innerText;
+                var name = document.querySelector('[name="name"]').innerText;
+                var customerPhone = document.querySelector('[name="customer_phone"]').innerText;
+                var email = document.querySelector('[name="customer_email"]').innerText;
+                var totalPeople = document.querySelector('[name="total_people"]').innerText;
+                var totalPayment = document.querySelector('[name="total_payment"]').innerText;
+    
+                // Send AJAX request to Django view
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/process-payment-invoice/', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Handle successful response
+                        console.log('Payment data stored successfully.');
+                    } else {
+                        // Handle error
+                        console.error('Error storing payment data.');
+                    }
+                };
+                var data = JSON.stringify({
+                    'invoice_number': invoiceNumber,
+                    'booking_datetime': bookingDatetime,
+                    'name': name,
+                    'customer_phone': customerPhone,
+                    'email': email,
+                    'total_people': totalPeople,
+                    'total_payment': totalPayment
+                });
+                xhr.send(data);
+            });
+       
+    </script>
+</body>
+</html>

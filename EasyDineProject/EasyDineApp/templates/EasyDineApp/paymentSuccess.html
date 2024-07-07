@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Receipt</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .checkmark {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 2px solid #4CAF50;
+        animation: checkmark 0.6s ease-in-out forwards;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .checkmark::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 40px;
+        border-bottom: 5px solid #4CAF50;
+        border-right: 5px solid #4CAF50;
+        transform: translate(-50%, -50%) rotate(-315deg);
+        animation: checkmarkLine 0.9s ease-in-out 0.2s forwards;
+    }
+
+    @keyframes checkmark {
+        0% { transform: scale(0); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes checkmarkLine {
+        0% { width: 0; height: 0; opacity: 0; }
+        100% { width: 20px; height: 40px; opacity: 1; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Payment Receipt</h1>
+    <p>Thank you for your payment!</p>
+    <div class="checkmark"></div>
+    <p id="transactionId">Transaction ID: <span id="transactionIdValue"></span></p>
+    <p>Name: {{ latest_booking.name }}</p>
+    <p id="dateTime">Date: <span id="dateTime"></span></p>
+    <p>Total Amount: Rs.{{ total_payment }}</p>
+</div>
+
+<script>
+
+    function currentDateTime(){
+        var currentDate=new Date():
+        return currentDate.toLocalString():
+    }
+
+    document.getElementById("dateTime").innerText=currentDateTime():
+    // Generate a random transaction ID using JavaScript
+    function generateTransactionId() {
+        var transactionId = Math.random().toString(36).substr(2, 10);
+        return transactionId;
+    }
+    // Display the generated transaction ID on the page
+    document.getElementById("transactionIdValue").innerText = generateTransactionId();
+</script>
+</body>
+</html>
